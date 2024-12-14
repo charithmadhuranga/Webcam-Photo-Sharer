@@ -4,16 +4,51 @@
         Camera:
             id: camera
             resolution: (640, 480)
+            size: (640, 480)
             play: False
         Button:
             id: capturebtn
             text: 'Capture'
+            size_hint: 1.0, 0.2
             on_release: root.capture()
         Button:
             id: startbtn
             text: 'Start'
+            size_hint: 1.0, 0.2
             on_release: root.start() if root.ids.camera.play == False else root.stop()
+<ImageScreen>
+    GridLayout:
+        cols: 1
+        Image:
+            id: img
+            source: ''
+            size: (640, 480)
+        Button:
+            id: createlinkbtn
+            text: 'Create Link'
+            on_release: root.share()
+            size_hint: 1.0, 0.3
+        Label:
+            id: linklabel
+            text:
+            size_hint: 1.0, 0.3
+        GridLayout:
+            cols: 1
+            Button:
+                id: copylinkbtn
+                text: 'Copy Link'
+                on_release: root.copylink()
+                size_hint: 1.0, 0.1
+            Button:
+                id: openlinkbtn
+                text: 'Open Link'
+                on_release: root.openlink()
+                size_hint: 1.0, 0.1
+
 <RootWidget>
     CameraScreen:
         id: camera_screen
         name: 'camera_screen'
+    ImageScreen:
+        id: image_screen
+        name: 'image_screen'

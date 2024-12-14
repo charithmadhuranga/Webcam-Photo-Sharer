@@ -3,33 +3,67 @@ from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 from fileshare import FileSharer
 import time
-Builder.load_file('design.kv')
+import pyperclip
+import webbrowser
+from dotenv import load_dotenv
+import os
+
+
+
+
+Builder.load_file("design.kv")
 
 
 class CameraScreen(Screen):
     def start(self):
         self.ids.camera.play = True
-        self.ids.startbtn.text = 'Stop'
+        self.ids.startbtn.text = "Stop"
+
     def stop(self):
         self.ids.camera.play = False
         self.ids.camera.texture = None
-        self.ids.startbtn.text = 'Start'
+        self.ids.startbtn.text = "Start"
+
     def capture(self):
-        curent_time = time.strftime('%Y%m%d-%H%M%S')
+        curent_time = time.strftime("%Y%m%d-%H%M%S")
         filepath = f"captures/{curent_time}.png"
         self.ids.camera.export_to_png(filepath)
-    pass
+        self.manager.current = "image_screen"
+        self.manager.get_screen("image_screen").ids.img.source = filepath
+
 
 class ImageScreen(Screen):
-    pass
+    load_dotenv()
+    public_key = os.getenv("UPLOADCARE_PUBLIC_KEY")
+    secret_key = os.getenv("UPLOADCARE_SECRET_KEY")
+    def share(self):
+        fileshare = FileSharer(
+            filepath=self.ids.img.source,
+            public_key=self.public_key,
+            secret_key=self.secret_key,
+        )
+        link = fileshare.share()
+        self.ids.linklabel.text = link
+        return link
 
-class RootWidget(Screen):
-    pass
+    def copylink(self):
+        pyperclip.copy(self.ids.linklabel.text)
+        self.ids.linklabel.text = "Copied to clipboard"
 
+
+    def openlink(self):
+        if self.ids.linklabel.text == "Copied to clipboard":
+            self.ids.linklabel.text = pyperclip.paste()
+        webbrowser.open(self.ids.linklabel.text)
+
+
+class RootWidget(ScreenManager):
+    pass
 
 
 class MainApp(App):
     def build(self):
         return RootWidget()
+
 
 MainApp().run()
