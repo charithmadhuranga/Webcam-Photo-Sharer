@@ -18,8 +18,11 @@ class CameraScreen(Screen):
     def start(self):
         self.ids.camera.play = True
         self.ids.startbtn.text = "Stop"
+        self.ids.camera.opacity = 1
+        self.ids.camera.texture = self.ids.camera._camera.texture
 
     def stop(self):
+        self.ids.camera.opacity = 0
         self.ids.camera.play = False
         self.ids.camera.texture = None
         self.ids.startbtn.text = "Start"
@@ -28,7 +31,8 @@ class CameraScreen(Screen):
         curent_time = time.strftime("%Y%m%d-%H%M%S")
         filepath = f"captures/{curent_time}.png"
         self.ids.camera.export_to_png(filepath)
-        self.manager.current = "image_screen"
+        if self.ids.camera.play:
+            self.manager.current = "image_screen"
         self.manager.get_screen("image_screen").ids.img.source = filepath
 
 
@@ -55,6 +59,9 @@ class ImageScreen(Screen):
         if self.ids.linklabel.text == "Copied to clipboard":
             self.ids.linklabel.text = pyperclip.paste()
         webbrowser.open(self.ids.linklabel.text)
+
+    def goback(self):
+        self.manager.current = "camera_screen"
 
 
 class RootWidget(ScreenManager):

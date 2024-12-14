@@ -19,3 +19,5 @@ Objects:
 
     UPLOADCARE_PUBLIC_KEY=public_key put here
     UPLOADCARE_SECRET_KEY=secret key put here
+
+![ui](./images/ui-1.png)
