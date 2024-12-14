@@ -1,0 +1,21 @@
+[project]
+name = "app-4-webcam-photo-sharer"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "certifi",
+    "chardet",
+    "docutils",
+    "filestack-python",
+    "idna",
+    "Kivy",
+    "Kivy-Garden",
+    "opencv-python>=4.10.0.84",
+    "Pygments",
+    "pyuploadcare>=6.0.0",
+    "requests",
+    "trafaret",
+    "urllib3",
+]
