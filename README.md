@@ -15,4 +15,7 @@ Objects:
 # Design
 ![Design](./design-frontend.png)
 
+##### For using this Software you need uploadcare account and api key and public key put in a .env file in the same folder as this file
 
+    UPLOADCARE_PUBLIC_KEY=public_key put here
+    UPLOADCARE_SECRET_KEY=secret key put here
